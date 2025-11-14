@@ -1,4 +1,0 @@
-
-dataset_desafio <- dataset[!( year %in% c(2022,2023))]
-getwd()
-fwrite(dataset_desafio,"dataset_desafio.csv")
