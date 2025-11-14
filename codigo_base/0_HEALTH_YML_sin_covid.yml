@@ -1,0 +1,191 @@
+---
+environment:
+  base_dir: "C:/00_dev/00_playground/04_TEACH/UNO/2025/clases/health_economics_challenge"
+  data_dir: "./dataset"
+
+experiment:
+  restart: FALSE
+  type: "HealthEconomics"
+  tags: ["health", "economics", "challenge", "2025"]
+  H1: "prediccion_gasto_bolsillo_ppp_2022"
+  exp_dir: "./exp"
+  experiment_label: "hf3_pred"
+  experiment_code: "v_alumno_sincovid"
+  
+feature_engineering:
+  files:
+    input:
+      dentrada: "dataset_desafio.csv"
+    output:
+      
+    fe_script: "01_FE_health_ALUMNO.R"
+
+  const:
+    origen_clase: "hf3_ppp_pc"
+    clase: "clase"
+    orden_lead: 1
+    frollmean_n: 2
+    reference_years_n: 3
+    presente: 2021
+    canaritos_year_start: 2000
+    canaritos_year_end: 
+    canaritos_year_valid: 
+    campos_sort: ["Country Code", "year"]
+    campos_rsort: ["year", "Country Code"]
+    campos_fijos: ["Country Name", "Country Code", "year", "region", "income", "hf3_ppp_pc","clase"]
+    mincontrolset: ["region", "income", "year"]
+    campos_lead: []
+    campos_descartar: []
+    
+  param:
+    dummiesNA: TRUE
+    corregir: "NO"
+    variablesdrift: []
+    variablesmanuales: TRUE
+    acumulavars: FALSE
+    lags: 
+      correr: [TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      lag: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      delta: [TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      canaritos: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    tendenciaYmuchomas:
+      correr: [TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      ventana: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 20]
+      tendencia: [TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      minimo: [TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      maximo: [TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      promedio: [TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      ratioavg: [TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      ratiomax: [TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      canaritos: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      
+    leads:
+      correr: [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+      lead: [1, 2, 3, 4, 5, 6]
+    
+    tony: FALSE
+    rankeador: TRUE
+    canaritos_final: 0.0
+
+training_strategy:
+  const:
+    secciones: ["present", "train", "validate", "test", "train_final"]
+    clase: "clase"
+    periodo: "year"
+    presente: []
+    campos_sort: ["Country Code", "year"]
+    TS_train_desde: [2000]
+    
+  param:
+    semilla: 102191
+
+    present:
+      periodos: []
+      rango:
+        desde: 2021
+        hasta: 2021
+      excluir: []
+      undersampling: []
+
+    train:
+      periodos: []
+      rango:
+        desde: 2000
+        hasta: 
+      excluir: [2020, 2021]
+      undersampling: []
+
+    validate:
+      periodos: []
+      rango:
+        desde: 
+        hasta: 
+      excluir: [2020, 2021]
+      undersampling: []
+
+    test:
+      periodos: []
+      rango:
+        desde: 
+        hasta: 
+      excluir: [2020, 2021]
+      undersampling: []
+
+    train_final:
+      periodos: []
+      rango:
+        desde: 2000
+        hasta: 
+      excluir: [2020, 2021]
+      undersampling: []
+    
+  files:
+    input:
+      dentrada: []
+    output:
+      present_data: "TS_present_data.csv.gz"
+      train_strategy: "TS_train_strategy.csv.gz"
+      train_final: "TS_train_final.csv.gz"
+      control: "control.txt"
+    ts_script: "02_TS_health.R"
+
+hyperparameter_tuning:
+  param:
+    algoritmo: "lightgbm"
+    semilla: 999983
+    crossvalidation: FALSE
+    crossvalidation_folds: 5
+    validate: TRUE
+    clase_train_POS: "clase"
+    clase_validate_POS: "clase"
+    clase_test_POS: "clase"
+    lightgbm:
+      learning_rate: [0.01, 0.2]
+      feature_fraction: [0.3, 0.9]
+      num_leaves: [10, 1500, 1]
+      min_data_in_leaf: [5, 100, 1]
+      lambda_l1: [0, 5]
+      lambda_l2: [0, 10]
+      min_gain_to_split: 0
+      bagging_fraction: [0.6, 1.0]
+      pos_bagging_fraction: 1.0
+      neg_bagging_fraction: 1.0
+      max_depth: -1
+      max_bin: 255
+      seed: 999983
+      extra_trees: FALSE
+      drop_rate: 0.1
+      max_drop: 50
+      skip_drop: 0.5
+      metric: "rmse"
+      first_metric_only: TRUE
+      objective: "regression"
+      boost_from_average: TRUE
+      force_row_wise: TRUE
+      feature_pre_filter: FALSE
+      boosting: "gbdt"
+      num_threads: 0
+      verbosity: -100
+      verbose: -100
+    BO:
+      iterations: 100
+      noisy: TRUE
+      minimize: TRUE
+      has.simple.signature: FALSE
+      save.on.disk.at.time: 600
+
+  files:
+    input:
+      dentrada: "TS_train_strategy.csv.gz"
+      dweights: ""
+    output:
+      BOlog: "BO_log.txt"
+      BObin: "BO_bin.Rdata"
+      tb_importancia: "tb_importancia.txt"
+      tb_importancia_prefix: "impo_"
+    ht_script: "03_HT_health.R"
+
+  const:
+    campo_clase: "clase"
+    campo_periodo: "year"
