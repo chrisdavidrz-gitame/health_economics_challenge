@@ -123,11 +123,27 @@ train:
 
 ### Dataset Principal: `dataset_desafio.csv`
 
-- **Países:** ~78 países válidos
+- **Países:** 23 países (versión reducida para computadoras con recursos limitados)
 - **Período:** 2000-2021 (22 años)
-- **Variables:** ~200 indicadores del World Bank (WDI)
+- **Variables:** ~400 indicadores del World Bank (WDI)
 - **Target:** `hf3_ppp_pc` (gasto de bolsillo PPP per cápita)
 - **Estructura:** Panel data (Country Code, year, region, income, variables...)
+
+### Dataset Alternativo: `dataset_desafio_paises_todos.csv`
+
+Si tu computadora tiene suficientes recursos (16GB+ RAM), podés usar el dataset completo:
+- **Países:** ~78 países válidos
+- Mismo período y variables que la versión reducida
+
+**Para usar el dataset completo:**
+1. Cambiá en `CONFIG_basico.yml` la línea:
+   ```yaml
+   dataset: "./dataset/dataset_desafio.csv"
+   ```
+   por:
+   ```yaml
+   dataset: "./dataset/dataset_desafio_paises_todos.csv"
+   ```
 
 ### Variables Importantes Incluidas
 
@@ -175,7 +191,7 @@ health_economics_challenge/
 │   └── metadata_paises.csv                # Info de países
 │
 ├── codigo_base/
-│   ├── CONFIG_minimo.yml                  # ⚙️ CONFIGURACIÓN (deben modificar)
+│   ├── CONFIG_basico.yml                  # ⚙️ CONFIGURACIÓN BASE (deben modificar)
 │   ├── 0_HEALTH_EXE.R                     # Script ejecutor principal
 │   ├── 01_FE_health.R                     # 📝 FEATURE ENGINEERING (deben completar)
 │   ├── 02_TS_health.R                     # Training Strategy
@@ -218,7 +234,7 @@ install.packages(c(
 
 ### Paso 3: Ajustar Path del Proyecto
 
-Editar `CONFIG_minimo.yml` línea 1:
+Editar `CONFIG_basico.yml` línea 1:
 ```yaml
 environment:
   base_dir: "C:/RUTA/A/TU/CARPETA/health_economics_challenge"  # ← Cambiar esta ruta
@@ -230,7 +246,7 @@ environment:
 
 ### Paso 1: Configurar Estrategia (YML)
 
-Editar `codigo_base/CONFIG_minimo.yml`:
+Editar `codigo_base/CONFIG_basico.yml`:
 
 ```yaml
 feature_engineering:
@@ -388,12 +404,15 @@ Ver `evaluacion/rubrica_evaluacion.md` para criterios detallados.
    Cómo crear, ejecutar y comparar diferentes experimentos (IMPRESCINDIBLE)
 
 3. **[Guía de Recursos Computacionales](documentacion/03_guia_recursos_computacionales.md)**
-   Optimización para computadoras con RAM limitada y cómo pedir dataset reducido
+   Requisitos de hardware, tiempos de ejecución esperados y troubleshooting
 
 4. **[FAQ Técnico](documentacion/04_FAQ_tecnico.md)**
    Soluciones a problemas comunes de instalación, ejecución y Git
 
-5. **[Instructivo GitHub](Instructivo_GitHub_Desafio_ML_Salud_FINAL.md)**
+5. **[Métrica de Evaluación Económica](documentacion/05_metrica_evaluacion_economica.md)**
+   Cómo se calcula la ganancia económica de sus predicciones (basada en gasto catastrófico)
+
+6. **[Instructivo GitHub](Instructivo_GitHub_Desafio_ML_Salud_FINAL.md)**
    Guía completa para configurar Git, GitHub y trabajo colaborativo en grupo
 
 ### Referencias de Economía de la Salud
@@ -425,7 +444,7 @@ NO. Solo deben modificar `01_FE_health.R` y `CONFIG_minimo.yml`.
 Consultá la [FAQ Técnico](documentacion/04_FAQ_tecnico.md) para soluciones a problemas comunes.
 
 ### ¿Mi computadora no tiene suficiente RAM para correr el pipeline?
-Consultá la [Guía de Recursos Computacionales](documentacion/03_guia_recursos_computacionales.md). Si ningún integrante del grupo puede ejecutarlo, pueden solicitar un dataset reducido.
+Se requieren mínimo 12GB de RAM libres. El dataset reducido (23 países) ya está incluido por defecto. Como trabajan en grupos de 3, debe ejecutarlo el integrante que tenga el hardware adecuado.
 
 ### ¿Cuántas configuraciones debo probar?
 Mínimo 2 (una con COVID, una sin COVID) para comparar. Más configuraciones = mejor análisis.

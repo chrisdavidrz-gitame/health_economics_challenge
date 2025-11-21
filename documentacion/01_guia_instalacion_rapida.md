@@ -147,7 +147,7 @@ install.packages("NOMBRE_DE_LA_LIBRERIA")
 
 ### 5.2. Configurar la Ruta Base
 
-1. Abrí el archivo: `codigo_base/CONFIG_minimo.yml`
+1. Abrí el archivo: `codigo_base/CONFIG_basico.yml`
 2. En la línea 2-3, cambiá la ruta base:
 
 ```yaml
@@ -173,7 +173,9 @@ base_dir: "/Users/juan/Documents/health_economics_challenge"
 ### 5.3. Verificar que el Dataset Esté Presente
 
 1. Verificá que exista el archivo: `dataset/dataset_desafio.csv`
-2. Si no está, contactá al profesor
+2. Este es el dataset reducido con 23 países (recomendado para comenzar)
+3. Si tenés 16GB+ de RAM, podés usar `dataset/dataset_desafio_paises_todos.csv`
+4. Si no están, contactá al profesor
 
 ---
 
@@ -205,9 +207,14 @@ head(dataset)
 str(dataset)
 ```
 
-**Resultado esperado:**
+**Resultado esperado (dataset reducido - 23 países):**
 ```
-Dataset cargado: XXXX filas, ~200 columnas
+Dataset cargado: ~500 filas, ~400 columnas
+```
+
+**Resultado esperado (dataset completo - 78 países):**
+```
+Dataset cargado: ~1700 filas, ~400 columnas
 ```
 
 ### 6.2. Test de Configuración
@@ -218,7 +225,7 @@ Ejecutá:
 library(yaml)
 
 # Leer configuración
-config <- yaml.load_file("codigo_base/CONFIG_minimo.yml")
+config <- yaml.load_file("codigo_base/CONFIG_basico.yml")
 
 # Verificar que se leyó correctamente
 cat("Configuración cargada correctamente\n")
@@ -237,9 +244,14 @@ Orden lead: 1
 
 ## Paso 7: Primera Ejecución Completa (Opcional)
 
-**⚠️ ADVERTENCIA:** La primera ejecución completa puede tardar **30-60 minutos** dependiendo de tu computadora.
+**⚠️ ADVERTENCIA:** La primera ejecución completa tarda aproximadamente **6 horas** con el dataset reducido (23 países).
 
-Si querés probar que todo funcione de punta a punta:
+**💡 Recomendación:** NO ejecutes el pipeline completo ahora. En su lugar:
+1. Esperá a tener tu Feature Engineering listo
+2. Planificá ejecutarlo de noche o durante el fin de semana
+3. Asegurate de que tu computadora no se apague (configurá "Suspender" en Nunca)
+
+Si igual querés probarlo:
 
 1. Abrí el archivo: `codigo_base/0_HEALTH_EXE.R`
 2. Revisá que la configuración inicial esté correcta (líneas 1-30)
@@ -247,9 +259,9 @@ Si querés probar que todo funcione de punta a punta:
 4. Observá los mensajes en la consola
 
 **Lo que va a pasar:**
-1. ✅ Feature Engineering (~2-5 min)
-2. ✅ Training Strategy (~5-10 min)
-3. ✅ Hyperparameter Tuning (~20-40 min)
+1. ✅ Feature Engineering (~5-10 min)
+2. ✅ Training Strategy (~10-20 min)
+3. ✅ Hyperparameter Tuning (~5-6 horas)
 
 **Si todo sale bien:** Verás una carpeta nueva `exp/` con los resultados.
 
@@ -323,7 +335,7 @@ file.exists("dataset/dataset_desafio.csv")  # Debe devolver TRUE
 **Solución:**
 ```r
 # Verificá que el archivo exista
-file.exists("codigo_base/CONFIG_minimo.yml")  # Debe devolver TRUE
+file.exists("codigo_base/CONFIG_basico.yml")  # Debe devolver TRUE
 
 # Si devuelve FALSE, verificá tu Working Directory
 getwd()

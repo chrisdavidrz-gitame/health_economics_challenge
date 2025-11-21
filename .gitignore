@@ -1,6 +1,17 @@
 exp/
 
 # ===========================
+# Carpeta de Evaluación (solo para el docente)
+# ===========================
+evaluacion/
+
+# ===========================
+# Archivos de configuración alternativos
+# ===========================
+codigo_base/CONFIG_minimo.yml
+codigo_base/CONFIG_minimo_dsreducido.yml
+
+# ===========================
 # Archivos de Claude Code
 # ===========================
 .claude/

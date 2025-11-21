@@ -11,7 +11,7 @@ Esta guía te ayuda a:
 1. Entender los requisitos de hardware
 2. Diagnosticar problemas de memoria o CPU
 3. Optimizar el pipeline si tu computadora es limitada
-4. Saber cuándo pedir un dataset reducido
+4. Saber cuándo usar el dataset completo (78 países) vs reducido (23 países)
 
 ---
 
@@ -21,21 +21,35 @@ Esta guía te ayuda a:
 
 | Componente | Requisito Mínimo | Recomendado |
 |------------|------------------|-------------|
-| **RAM** | 4 GB disponible | 8 GB o más |
-| **CPU** | 2 núcleos | 4 núcleos o más |
-| **Disco** | 2 GB libres | 5 GB libres |
+| **RAM** | 12 GB libres | 16 GB o más |
+| **CPU** | 4 núcleos | 8 núcleos o más |
+| **Disco** | 10 GB libres | 20 GB libres |
 | **Sistema Operativo** | Windows 10, macOS 10.13, Ubuntu 20.04 | Versiones más recientes |
 | **R** | Versión 4.0+ | Versión 4.3+ |
 
+⚠️ **IMPORTANTE:** El pipeline requiere **mínimo 12GB de RAM libres**. Como trabajan en grupos de 3, debe ejecutarlo el integrante que tenga el hardware adecuado.
+
 ### Tiempos de Ejecución Esperados
 
-Con dataset completo (~78 países, 22 años, ~200 variables):
+**Con dataset reducido (23 países):**
 
-| Hardware | Feature Engineering | Training Strategy | Hyperparameter Tuning | **TOTAL** |
-|----------|---------------------|-------------------|------------------------|-----------|
-| **Básico** (4GB RAM, 2 cores) | 5-10 min | 10-15 min | 40-60 min | **60-90 min** |
-| **Medio** (8GB RAM, 4 cores) | 2-5 min | 5-10 min | 20-30 min | **30-45 min** |
-| **Potente** (16GB RAM, 8+ cores) | 1-2 min | 2-5 min | 10-15 min | **15-25 min** |
+| Etapa | Tiempo Aproximado |
+|-------|-------------------|
+| Feature Engineering | 5-10 min |
+| Training Strategy | 10-20 min |
+| Hyperparameter Tuning | **5-6 horas** |
+| **TOTAL** | **~6 horas** |
+
+⏰ **Recomendación:** Ejecutar el pipeline completo de noche o durante el fin de semana. Planificá con tiempo.
+
+**Con dataset completo (78 países - SOLO con 16GB+ RAM):**
+
+| Etapa | Tiempo Aproximado |
+|-------|-------------------|
+| Feature Engineering | 10-20 min |
+| Training Strategy | 30-60 min |
+| Hyperparameter Tuning | **8-12 horas** |
+| **TOTAL** | **~10-14 horas** |
 
 ---
 
@@ -186,14 +200,21 @@ Integrantes:
 - Nombre 3 (Notebook: 4GB RAM, 2 cores)
 
 Problema:
-R se cierra con error "cannot allocate vector" al ejecutar Feature Engineering.
+R se cierra con error "cannot allocate vector" al ejecutar Feature Engineering con el dataset completo (78 países).
 
 Probamos:
 - Limpiar memoria con gc()
 - Ejecutar por etapas
 - Cerrar todas las demás aplicaciones
 
-¿Podemos recibir un dataset reducido para poder completar el desafío?
+Solución: Cambiamos a usar el dataset reducido (23 países) en CONFIG_basico.yml:
+```yaml
+dataset: "./dataset/dataset_desafio.csv"  # Dataset reducido (23 países)
+```
+
+Esto nos permitió completar el desafío en nuestra computadora con 4GB RAM.
+
+Nota: El profesor puede brindarte el dataset completo si tu hardware lo soporta.
 
 Gracias,
 Grupo [X]
@@ -207,7 +228,7 @@ Si el Hyperparameter Tuning tarda más de 90 minutos:
 
 #### Opción 1: Reducir Iteraciones de Optimización
 
-Editá `CONFIG_minimo.yml`:
+Editá `CONFIG_basico.yml`:
 
 ```yaml
 hyperparameter_tuning:
@@ -223,7 +244,7 @@ hyperparameter_tuning:
 
 #### Opción 2: Reducir Árboles de LightGBM
 
-En `CONFIG_minimo.yml`:
+En `CONFIG_basico.yml`:
 
 ```yaml
 lightgbm:
@@ -271,7 +292,7 @@ dataset_train <- readRDS("exp/.../dataset_train.rds")
 **Configuración recomendada:**
 
 ```yaml
-# CONFIG_minimo.yml
+# CONFIG_basico.yml
 
 hyperparameter_tuning:
   param:
@@ -297,7 +318,7 @@ lightgbm:
 **Configuración recomendada:**
 
 ```yaml
-# CONFIG_minimo.yml (valores default)
+# CONFIG_basico.yml (valores default)
 
 hyperparameter_tuning:
   param:

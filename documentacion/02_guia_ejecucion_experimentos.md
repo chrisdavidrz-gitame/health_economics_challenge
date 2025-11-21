@@ -40,7 +40,7 @@ Aprender a:
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
 │  2. MODIFICAR CÓDIGO                                        │
-│     - Editar CONFIG_minimo.yml                              │
+│     - Editar CONFIG_basico.yml                              │
 │     - Editar 01_FE_health.R (AgregarVariables)              │
 └────────────────┬────────────────────────────────────────────┘
                  │
@@ -81,7 +81,7 @@ Ejecutar el pipeline **SIN MODIFICACIONES** para:
 
 ### Paso 1: Verificar Configuración Inicial
 
-Abrí `codigo_base/CONFIG_minimo.yml` y verificá:
+Abrí `codigo_base/CONFIG_basico.yml` y verificá:
 
 ```yaml
 environment:
@@ -181,7 +181,7 @@ Best RMSE: 0.XXXXX
 
 #### Configuración A: CON COVID (Maximalista)
 
-1. Abrí `CONFIG_minimo.yml`
+1. Abrí `CONFIG_basico.yml`
 2. Modificá:
 
 ```yaml
@@ -206,7 +206,7 @@ training_strategy:
 
 #### Configuración B: SIN COVID (Conservadora)
 
-1. Modificá `CONFIG_minimo.yml`:
+1. Modificá `CONFIG_basico.yml`:
 
 ```yaml
 experiment:
@@ -301,7 +301,7 @@ AgregarVariables <- function(dataset) {
 
 #### Paso 3: Cambiar Nombre del Experimento
 
-En `CONFIG_minimo.yml`:
+En `CONFIG_basico.yml`:
 
 ```yaml
 experiment:

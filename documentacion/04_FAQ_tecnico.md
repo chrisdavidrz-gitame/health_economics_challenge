@@ -92,7 +92,7 @@ RStudio Cloud tiene límites de:
 
 **Si tarda más:**
 1. Verificá que no haya otros programas consumiendo recursos
-2. Reducí iteraciones de Bayesian Optimization (BO) en CONFIG_minimo.yml
+2. Reducí iteraciones de Bayesian Optimization (BO) en CONFIG_basico.yml
 3. Consultá [Guía de Recursos Computacionales](03_guia_recursos_computacionales.md)
 
 ---
@@ -261,11 +261,11 @@ library(dplyr)    # Si preferís dplyr sobre data.table
 
 ## Configuración (YML)
 
-### P12: Error: "Scanner error" al leer CONFIG_minimo.yml
+### P12: Error: "Scanner error" al leer CONFIG_basico.yml
 
 **Problema:**
 ```
-Error in yaml.load_file("CONFIG_minimo.yml") :
+Error in yaml.load_file("CONFIG_basico.yml") :
   Scanner error: mapping values are not allowed here
 ```
 
@@ -299,9 +299,9 @@ experiment:
 
 ---
 
-### P13: ¿Qué hace cada parámetro de CONFIG_minimo.yml?
+### P13: ¿Qué hace cada parámetro de CONFIG_basico.yml?
 
-Ver comentarios en el propio archivo `CONFIG_minimo.yml`. Cada parámetro tiene una explicación en español.
+Ver comentarios en el propio archivo `CONFIG_basico.yml`. Cada parámetro tiene una explicación en español.
 
 **Parámetros que SÍ debés modificar:**
 - `experiment.nombre_experimento` → Nombre único para cada experimento
@@ -318,7 +318,7 @@ Ver comentarios en el propio archivo `CONFIG_minimo.yml`. Cada parámetro tiene 
 
 ### P14: ¿Cómo cambio la ruta base del proyecto?
 
-En `CONFIG_minimo.yml`, línea 2-3:
+En `CONFIG_basico.yml`, línea 2-3:
 
 ```yaml
 environment:
